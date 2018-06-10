@@ -1,6 +1,7 @@
 import bcrypt = require('bcrypt-nodejs');
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
+import { Promise } from 'mongoose';
 import User from '../models/User';
 import utils from '../utils/utils';
 
@@ -28,7 +29,7 @@ export default class AuthenticationController {
             res.json({
               message: 'Enjoy your token!',
               success: true,
-              token: jwt.sign({ username: user.username, id: user._id }, secretKey, { expiresIn: 86400 })
+              token: jwt.sign({ username: user.username, id: user._id, firstName: user.firstName, lastName: user.lastName }, secretKey, { expiresIn: 86400 })
             });
           }
         }
@@ -43,16 +44,18 @@ export default class AuthenticationController {
 
   public authenticateBefore(req: Request) {
     const token = req.body.token || req.headers['x-access-token'];
-    if (token) {
+    const status = { status: false, user: false };
+    return new Promise((resolve, reject) => {
       jwt.verify(token, utils.getTokenKey(), (err, decoded) => {
-        if (err) {
-          return { status: false, user: false };
-        } else {
-          return { status: true, user: decoded };
-        }
-      });
-    } else {
-      return { status: false, user: false };
-    }
+      if (err) {
+        status.user = false;
+        status.status = false;
+      } else {
+        status.status = true;
+        status.user = decoded;
+      }
+      resolve(status);
+    });
+  });
   }
 }

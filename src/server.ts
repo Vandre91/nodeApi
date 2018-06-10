@@ -9,6 +9,7 @@ import config from './config/config';
 import AuthenticateRouter from './router/AuthenticateRouter';
 import UserRouter from './router/UserRouter';
 import Mongo from './utils/Mongo';
+import Seeder from './utils/Seeder';
 import utils from './utils/Utils';
 
 class Server {
@@ -16,14 +17,17 @@ class Server {
   public app: express.Application;
   public mongo;
   private api_url: string = config.api_url;
+  public seeder: Seeder;
 
   constructor() {
     this.mongo = new Mongo();
     this.app = express();
+    this.seeder = new Seeder();
     this.config();
     this.routes();
     utils.app = this.app;
   }
+  
   public routes(): void {
     this.app.use(`${this.api_url}users`, UserRouter);
     this.app.use(`${this.api_url}authenticate`, AuthenticateRouter);
@@ -37,6 +41,10 @@ class Server {
     this.app.use(compression());
     this.app.use(helmet());
     this.app.use(cors());
+    this.seeder.seedUser().then((e) => {
+      // tslint:disable-next-line:no-console
+      console.log(utils.log(`Default user ${(e) ? 'created' : 'already created'}`));
+    });
   }
 
 }
