@@ -15,9 +15,10 @@ class AuthenticateRouter {
   }
 
   public routes() {
-    this.router.post('/', (req: Request, res: Response) => this.authController.authenticate(req, res, utils.getTokenKey() ));
+    this.router.post('/', (req: Request, res: Response) =>
+      this.authController.authenticate(req, res, utils.getTokenKey())
+    );
   }
-
 }
 
 this.authenticateRouter = new AuthenticateRouter();

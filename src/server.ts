@@ -1,3 +1,5 @@
+// tslint:disable:no-console
+
 import * as bodyParser from 'body-parser';
 import compression = require('compression');
 import cookieParser = require('cookie-parser');
@@ -27,7 +29,7 @@ class Server {
     this.routes();
     utils.app = this.app;
   }
-  
+
   public routes(): void {
     this.app.use(`${this.api_url}users`, UserRouter);
     this.app.use(`${this.api_url}authenticate`, AuthenticateRouter);
@@ -38,11 +40,11 @@ class Server {
     this.app.use(bodyParser.json());
     this.app.use(cookieParser());
     this.app.use(logger('dev'));
+
     this.app.use(compression());
     this.app.use(helmet());
     this.app.use(cors());
     this.seeder.seedUser().then((e) => {
-      // tslint:disable-next-line:no-console
       console.log(utils.log(`Default user ${(e) ? 'created' : 'already created'}`));
     });
   }

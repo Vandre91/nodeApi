@@ -1,26 +1,32 @@
-'use strict';
-import { Request, Response } from 'express';
-import * as jwt from 'jsonwebtoken';
+// tslint:disable:prefer-for-of
 
-export default {
-  auth: (req: Request, res: Response, secretKey: string, next) => {
-    const token = req.body.token || req.params.token || req.headers['x-access-token'];
-    if (token) {
-      jwt.verify(token, secretKey, (err: object, decoded: object) => {
-        if (err) {
-          res.status(401).json({
-            success: false,
-            message: 'Failed to authenticate token.'
-          });
-        } else {
-          next(req, res, decoded);
-        }
-      });
-    } else {
-      res.status(401).json({
-        success: false,
-        message: 'No token provided.'
-      });
+import * as jwt from 'jsonwebtoken';
+import utils from './utils';
+
+export default function authenticateBefore(target: any, key: any, descriptor: PropertyDescriptor) {
+  descriptor = Object.getOwnPropertyDescriptor(target, key);
+  const originalMethod = descriptor.value;
+  descriptor.value = function() {
+    const args = [];
+    const status = { status: false, user: false };
+    for (let index = 0; index < arguments.length; index++) {
+      args.push(arguments[index]);
     }
-  }
-};
+    const token = args[0].body.token || args[0].headers['x-access-token'] || '';
+    jwt.verify(token, utils.getTokenKey(), (err, decoded) => {
+      if (err) {
+        args[1].status(401).json({
+          success: false,
+          message: 'No token provided.'
+        });
+      } else {
+        status.status = true;
+        status.user = decoded;
+        args.push(status);
+        originalMethod.apply(this, args);
+      }
+      return status;
+    });
+  };
+  return descriptor;
+}
