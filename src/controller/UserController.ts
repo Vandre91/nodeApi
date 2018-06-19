@@ -9,10 +9,10 @@ export default class UserController {
 
   @authenticateBefore
   public findAll(req: Request, res: Response, status?: any): void {
-    User.find().then((data) => {
-      res.status(200).json({ data });
+    User.find({}).then((data) => {
+      res.status(200).json({ success: true, data });
     }).catch((error) => {
-      res.status(500).json({ error });
+      res.status(500).json({ success: false, error });
     });
   }
 
@@ -22,11 +22,11 @@ export default class UserController {
     User.findOne({ _id })
       .then((data) => {
         res.status(200);
-        res.json({ data });
+        res.json({ success: true, data });
       })
       .catch((error) => {
         res.status(500);
-        res.json({ error });
+        res.json({ success: false, error });
       });
   }
 
@@ -46,9 +46,9 @@ export default class UserController {
     });
     user.save()
       .then((data) => {
-        res.status(201).json({ data });
+        res.status(201).json({ success: true, data });
       }).catch((error) => {
-        res.status(500).json({ error });
+        res.status(500).json({ success: false, error });
       });
   }
 
@@ -61,10 +61,10 @@ export default class UserController {
     }
     User.findOneAndUpdate({ _id }, { ...req.body, updatedAt }, { new: true })
       .then((data) => {
-        res.status(200).json({ data });
+        res.status(200).json({ success: true, data });
       })
       .catch((error) => {
-        res.status(500).json({ error });
+        res.status(500).json({ success: false, error });
       });
   }
 
@@ -76,7 +76,7 @@ export default class UserController {
         res.status(204).end();
       })
       .catch((error) => {
-        res.status(500).json({ error });
+        res.status(500).json({ success: false, error });
       });
   }
 }
