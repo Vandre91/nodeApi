@@ -1,5 +1,4 @@
 // tslint:disable:prefer-for-of
-
 import * as jwt from 'jsonwebtoken';
 import utils from './utils';
 
