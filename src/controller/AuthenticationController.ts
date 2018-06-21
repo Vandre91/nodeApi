@@ -34,7 +34,7 @@ export default class AuthenticationController {
       });
     } else {
       res.status(400).json({
-        message: 'No name!',
+        message: 'No token or identifier provided.',
         succes: false,
       });
     }

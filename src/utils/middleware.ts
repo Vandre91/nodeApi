@@ -18,7 +18,7 @@ export default function authenticateBefore(target: any, key: any, descriptor: Pr
       if (err) {
         res.status(401).json({
           success: false,
-          message: 'No token provided.'
+          ...err
         });
       } else {
         status.status = true;
