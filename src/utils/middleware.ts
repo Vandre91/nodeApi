@@ -1,6 +1,6 @@
 // tslint:disable:prefer-for-of
 import * as jwt from 'jsonwebtoken';
-import utils from './utils';
+import utils from './Utils';
 
 export default function authenticateBefore(target: any, key: any, descriptor: PropertyDescriptor) {
   descriptor = Object.getOwnPropertyDescriptor(target, key);
