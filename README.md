@@ -26,7 +26,7 @@ The API will create a default admin user, the model is in [config file](./config
 },
 ```
 
-
+### API Endpoint
 
 
 | TYPE   | ENDPOINT                            | DESCRIPTION         | BODY                                                                    |
@@ -40,6 +40,7 @@ The API will create a default admin user, the model is in [config file](./config
 
 
 
+### Model user
 
 ```json
 {
@@ -52,5 +53,5 @@ The API will create a default admin user, the model is in [config file](./config
     "username": "admin",
     "_id": "5b1d50e38ef05e1df810202c",
     "__v": 0
-}
+} 
 ```
