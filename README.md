@@ -14,7 +14,7 @@ Install MongoDB and run it. After, just run  `npm i ` to install packages, and t
 
 After authenticate, the server will give you a `x-access-token`. You have to put `x-access-token` in your header request to communicate with users endpoint. You also have to put `Content-Type: application/x-www-form-urlencoded`. 
 
-The API will create a default admin user, the model is in [config file](./config/config.ts).
+The API will create a default admin user, the model is in [config file](./src/config/config.ts).
 
 ```json
 "defaultUser": {
