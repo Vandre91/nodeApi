@@ -1,5 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var permissions = {
+    findAll: 9,
+    findOne: 1,
+    create: 9,
+    update: 1,
+    delete: 1,
+    authenticate: 0,
+};
 exports.default = {
     secret: 'thisIsASecretKeyForParsingToken',
     database: 'mongodb://localhost/tes',
@@ -11,6 +19,8 @@ exports.default = {
         lastName: 'admin',
         password: 'admin',
         username: 'admin',
+        role: 9,
     },
+    permissions: permissions,
 };
 //# sourceMappingURL=config.js.map

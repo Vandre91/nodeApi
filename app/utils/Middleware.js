@@ -10,6 +10,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable:prefer-for-of
 var jwt = require("jsonwebtoken");
+var config_1 = require("../config/config");
 var Utils_1 = require("./Utils");
 function authenticateBefore(target, key, descriptor) {
     descriptor = Object.getOwnPropertyDescriptor(target, key);
@@ -32,7 +33,15 @@ function authenticateBefore(target, key, descriptor) {
                 status.status = true;
                 status.user = decoded;
                 args.push(status);
-                originalMethod.apply(_this, args);
+                if (decoded.role >= config_1.default.permissions[key]) {
+                    originalMethod.apply(_this, args);
+                }
+                else {
+                    res.status(401).json({
+                        success: false,
+                        message: 'Unauthorized'
+                    });
+                }
             }
             return status;
         });

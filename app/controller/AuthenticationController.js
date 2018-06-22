@@ -34,7 +34,7 @@ var AuthenticationController = /** @class */ (function () {
                         res.json({
                             message: 'Enjoy your token!',
                             success: true,
-                            token: jwt.sign({ username: user.username, id: user._id, firstName: user.firstName, lastName: user.lastName }, secretKey, { expiresIn: 86400 })
+                            token: jwt.sign({ username: user.username, id: user._id, firstName: user.firstName, lastName: user.lastName, role: user.role }, secretKey, { expiresIn: 86400 })
                         });
                     }
                 }

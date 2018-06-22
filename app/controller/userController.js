@@ -80,6 +80,12 @@ var UserController = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (status.user.role === 1 && req.params.userID !== status.user.id) {
+                            res.status(401).json({
+                                success: false,
+                                message: 'Unauthorized'
+                            });
+                        }
                         _id = req.params.userID;
                         return [4 /*yield*/, User_1.default.findOne({ _id: _id })
                                 .then(function (data) {
@@ -134,6 +140,12 @@ var UserController = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (status.user.role === 1 && req.params.userID !== status.user.id) {
+                            res.status(401).json({
+                                success: false,
+                                message: 'Unauthorized'
+                            });
+                        }
                         _id = req.params.userID;
                         updatedAt = new Date();
                         if (req.body.password) {
@@ -159,6 +171,12 @@ var UserController = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (status.user.role === 1 && req.params.userID !== status.user.id) {
+                            res.status(401).json({
+                                success: false,
+                                message: 'Unauthorized'
+                            });
+                        }
                         _id = req.params.userID;
                         return [4 /*yield*/, User_1.default.findOneAndRemove({ _id: _id })
                                 .then(function () {

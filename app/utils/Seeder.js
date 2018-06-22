@@ -11,18 +11,23 @@ var Seeder = /** @class */ (function () {
     Seeder.prototype.seedUser = function () {
         var _this = this;
         return this.verifyIfNotExist().then(function (_) {
-            var user = new User_1.default(_this.user);
-            return user.save()
-                .then(function (__) {
-                return true;
-            }).catch(function (__) {
+            if (!_) {
+                var user = new User_1.default(_this.user);
+                return user.save()
+                    .then(function (__) {
+                    return true;
+                }).catch(function (__) {
+                    return false;
+                });
+            }
+            else {
                 return false;
-            });
+            }
         });
     };
     Seeder.prototype.verifyIfNotExist = function () {
-        return User_1.default.findOne(this.user.username).then(function (_) {
-            return true;
+        return User_1.default.findOne({ role: this.user.role }).then(function (_) {
+            return (_) ? true : false;
         }).catch(function (_) {
             return false;
         });

@@ -10,20 +10,24 @@ export default class Seeder {
     this.user.password = bcrypt.hashSync(this.user.password);
   }
   public seedUser() {
-    return this.verifyIfNotExist().then( (_) => {
-      const user = new User(this.user);
-      return user.save()
-        .then((__) => {
-          return true;
-        }).catch((__) => {
-          return false;
-        });
+    return this.verifyIfNotExist().then((_) => {
+      if (!_) {
+        const user = new User(this.user);
+        return user.save()
+          .then((__) => {
+            return true;
+          }).catch((__) => {
+            return false;
+          });
+      } else {
+        return false;
+      }
     });
   }
 
   public verifyIfNotExist() {
-    return User.findOne(this.user.username).then((_) => {
-      return true;
+    return User.findOne({ role: this.user.role }).then((_) => {
+      return (_) ? true : false;
     }).catch((_) => {
       return false;
     });
